@@ -1,15 +1,10 @@
 import cv2
 import numpy as np
-import os
 import pyautogui
 
 """
 Rec screen imgs into video without img save
 
-# alternative way (not tested)
-def save():
-    os.system("ffmpeg -r 1 -i img%01d.png -vcodec mpeg4 -y movie.mp4")
-"""
 # simple version for working with CWD
 output = "video/vids/test.avi"
 
