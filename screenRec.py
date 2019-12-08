@@ -46,8 +46,8 @@ def main():
             image = cv2.cvtColor(np.array(image), cv2.COLOR_RGB2BGR)
             out.write(image)
             StopIteration(0.5)
-            cv2.imwrite(path + str(count) + ".jpg", image)
             if count % 20 == 0:
+                cv2.imwrite(path + str(count) + ".jpg", image)
                 print("recording", count, " step")
             count += 1
         except KeyboardInterrupt:   # ctrl+c
