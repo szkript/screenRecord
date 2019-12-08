@@ -1,3 +1,5 @@
+import os
+
 import cv2
 import numpy as np
 import pyautogui
@@ -9,25 +11,52 @@ Rec screen imgs into video without img save
 # simple version for working with CWD
 output = "test.avi"
 
-# get info from pic
-image = pyautogui.screenshot()
-image = cv2.cvtColor(np.array(image), cv2.COLOR_RGB2BGR)
-height, width, channels = image.shape
 
-# Define the codec and create VideoWriter object
-fourcc = cv2.VideoWriter_fourcc(*'mp4v')  # Be sure to use lower case
-out = cv2.VideoWriter(output, fourcc, 20.0, (width, height))
-
-while True:
+def set_path():
+    actual_path = os.getcwd() + "\\img"
+    directories = [x[0] for x in os.walk(actual_path)]
     try:
-        image = pyautogui.screenshot()
-        image = cv2.cvtColor(np.array(image), cv2.COLOR_RGB2BGR)
-        out.write(image)
-        StopIteration(0.5)
-    except KeyboardInterrupt:   # ctrl+c
-        print("stop recording")
-        break
+        next_folder = str(int(directories[-1][-1]) + 1)
+    except ValueError:
+        next_folder = str(0)
+    except IndexError:
+        next_folder = str(0)
+
+    directory = actual_path + "\\" + next_folder + "\\"
+    print("The current working directory is %s" % directory + "\n")
+    if not os.path.exists(directory):
+        os.makedirs(directory)
+    return directory
 
 
-out.release()
-cv2.destroyAllWindows()
+def main():
+    # get info from pic
+    image = pyautogui.screenshot()
+    image = cv2.cvtColor(np.array(image), cv2.COLOR_RGB2BGR)
+    height, width, channels = image.shape
+
+    # Define the codec and create VideoWriter object
+    fourcc = cv2.VideoWriter_fourcc(*'mp4v')  # Be sure to use lower case
+    out = cv2.VideoWriter(output, fourcc, 20.0, (width, height))
+    count = 0
+    path = set_path()
+    while True:
+        try:
+            image = pyautogui.screenshot()
+            image = cv2.cvtColor(np.array(image), cv2.COLOR_RGB2BGR)
+            out.write(image)
+            StopIteration(0.5)
+            cv2.imwrite(path + str(count) + ".jpg", image)
+            if count % 20 == 0:
+                print("recording", count, " step")
+            count += 1
+        except KeyboardInterrupt:   # ctrl+c
+            print("stop recording")
+            break
+
+    out.release()
+    cv2.destroyAllWindows()
+
+
+if __name__ == "__main__":
+    main()
