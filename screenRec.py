@@ -4,9 +4,10 @@ import pyautogui
 
 """
 Rec screen imgs into video without img save
+"""
 
 # simple version for working with CWD
-output = "video/vids/test.avi"
+output = "test.avi"
 
 # get info from pic
 image = pyautogui.screenshot()
@@ -17,7 +18,7 @@ height, width, channels = image.shape
 fourcc = cv2.VideoWriter_fourcc(*'mp4v')  # Be sure to use lower case
 out = cv2.VideoWriter(output, fourcc, 20.0, (width, height))
 
-while(True):
+while True:
     try:
         image = pyautogui.screenshot()
         image = cv2.cvtColor(np.array(image), cv2.COLOR_RGB2BGR)
