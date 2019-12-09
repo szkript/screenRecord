@@ -6,7 +6,6 @@ from config import coordinates
 import image_reader as ir
 import pickle
 
-
 """
 Rec screen imgs into video without img save
 """
@@ -80,6 +79,14 @@ def image_extractor():
     output_path = set_path("table_parts")
     # images = ir.image_reader(path)
     images = load_vars("coordinates")
+    for i, image in enumerate(images):
+        for key, coord in coords.items():
+            x = coords[key]["x"]
+            y = coords[key]["y"]
+            width = coords[key]["width"]
+            height = coords[key]["height"]
+            cropped_image = crop_image(image, x, y, width, height)
+            cv2.imwrite(output_path + key + str(i) + ".jpg", cropped_image)
     pass
 
 
