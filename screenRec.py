@@ -78,7 +78,9 @@ def image_extractor():
     coords = coordinates.load_coordinates()
     path = "img\\0"
     output_path = set_path("table_parts")
-    images = ir.image_reader(path)
+    # images = ir.image_reader(path)
+    images = load_vars("coordinates")
+    pass
 
 
 def save_vars(content):
