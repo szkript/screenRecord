@@ -3,6 +3,7 @@ import cv2
 import numpy as np
 import pyautogui
 from config import coordinates
+import image_reader as ir
 
 """
 Rec screen imgs into video without img save
@@ -31,7 +32,14 @@ def set_path(folder_name):
     return directory
 
 
-def main():
+def main(option):
+    if option == "rec":
+        video_record()
+    if option == "read_image":
+        pass
+
+
+def video_record():
     output = "test.avi"
     video_output_path = set_path("video") + output
     img_path = set_path("img")
@@ -65,5 +73,8 @@ def main():
     cv2.destroyAllWindows()
 
 
+# options:
+# rec - video recorder
+# read_image - reads a folder of image and process it
 if __name__ == "__main__":
-    main()
+    main("read_image")
