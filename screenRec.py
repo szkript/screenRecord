@@ -33,6 +33,9 @@ def set_path(folder_name):
 
 def main():
     output = "test.avi"
+    video_output_path = set_path("video") + output
+    img_path = set_path("img")
+
     # load x,y,width,height screen coords from poker table
     coords = coordinates.load_coordinates()
     # get info from pic
@@ -42,9 +45,8 @@ def main():
 
     # Define the codec and create VideoWriter object
     fourcc = cv2.VideoWriter_fourcc(*'mp4v')  # Be sure to use lower case
-    out = cv2.VideoWriter(output, fourcc, 20.0, (width, height))
+    out = cv2.VideoWriter(video_output_path, fourcc, 20.0, (width, height))
     count = 0
-    path = set_path("img")
     while True:
         try:
             image = pyautogui.screenshot()
@@ -52,10 +54,10 @@ def main():
             out.write(image)
             StopIteration(0.5)
             if count % 20 == 0:
-                cv2.imwrite(path + str(count) + ".jpg", image)
+                cv2.imwrite(img_path + str(count) + ".jpg", image)
                 print("recording", count, " step")
             count += 1
-        except KeyboardInterrupt:   # ctrl+c
+        except KeyboardInterrupt:  # ctrl+c
             print("stop recording")
             break
 
