@@ -36,7 +36,7 @@ def main(option):
     if option == "rec":
         video_record()
     if option == "read_image":
-        pass
+        image_extractor()
 
 
 def video_record():
@@ -71,6 +71,11 @@ def video_record():
 
     out.release()
     cv2.destroyAllWindows()
+
+
+def image_extractor():
+    path = "img\\0"
+    images = ir.image_reader(path)
 
 
 # options:

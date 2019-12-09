@@ -1,7 +1,6 @@
 import os
 import cv2
 from tqdm import tqdm
-# TODO: fix recognition of bad images
 
 
 def filename(path, index):
