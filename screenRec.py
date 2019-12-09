@@ -14,8 +14,8 @@ def crop_image(image, x, y, w, h):
     return image[y:y + h, x:x + w]
 
 
-def set_path():
-    actual_path = os.getcwd() + "\\img"
+def set_path(folder_name):
+    actual_path = os.getcwd() + "\\{0}".format(folder_name)
     directories = [x[0] for x in os.walk(actual_path)]
     try:
         next_folder = str(int(directories[-1][-1]) + 1)
@@ -44,7 +44,7 @@ def main():
     fourcc = cv2.VideoWriter_fourcc(*'mp4v')  # Be sure to use lower case
     out = cv2.VideoWriter(output, fourcc, 20.0, (width, height))
     count = 0
-    path = set_path()
+    path = set_path("img")
     while True:
         try:
             image = pyautogui.screenshot()
