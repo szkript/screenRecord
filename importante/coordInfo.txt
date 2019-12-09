@@ -1,0 +1,78 @@
+table coordinates
+####################
+poker table
+x=716
+y=162
+w=1190
+h=850
+
+hand
+x=1240
+y=705
+w=150
+h=55
+
+hand -> card 1
+x=1240
+y=707
+w=73
+h=51
+
+hand -> card 2
+x=1315
+y=706
+w=75
+h=55
+
+middle cards
+x=1115
+y=463
+w=400
+h=110
+
+middle cards -> card1 (card size: w:75;h:110)
+x=1117
+y=462
+w=75
+h=110
+
+middle cards -> card2
+x=1197
+y=462
+w=75
+h=110
+
+middle cards -> card3
+x=1277
+y=462
+w=75
+h=110
+
+middle cards -> card4
+x=1355
+y=462
+w=75
+h=110
+
+middle cards -> card5
+x=1437
+y=462
+w=75
+h=110
+
+pot
+x=1286
+y=594
+w=85
+h=26
+
+myChips
+x=1277
+y=798
+w=150
+h=30
+
+x=
+y=
+w=
+h=

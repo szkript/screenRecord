@@ -1,8 +1,8 @@
 import os
-
 import cv2
 import numpy as np
 import pyautogui
+from config import coordinates
 
 """
 Rec screen imgs into video without img save
@@ -10,6 +10,11 @@ Rec screen imgs into video without img save
 
 # simple version for working with CWD
 output = "test.avi"
+
+
+# img basic crop tool
+def crop_image(image, x, y, w, h):
+    return image[y:y + h, x:x + w]
 
 
 def set_path():
@@ -31,6 +36,7 @@ def set_path():
 
 def main():
     # get info from pic
+    coords = coordinates.load_coordinates()
     image = pyautogui.screenshot()
     image = cv2.cvtColor(np.array(image), cv2.COLOR_RGB2BGR)
     height, width, channels = image.shape
