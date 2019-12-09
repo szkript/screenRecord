@@ -55,7 +55,7 @@ def main():
             StopIteration(0.5)
             if count % 20 == 0:
                 cv2.imwrite(img_path + str(count) + ".jpg", image)
-                print("recording", count, " step")
+                print("recording, step: ", count)
             count += 1
         except KeyboardInterrupt:  # ctrl+c
             print("stop recording")
