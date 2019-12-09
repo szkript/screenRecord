@@ -1,7 +1,7 @@
 def load_coordinates():
     size_of_card = dict(
         width=75,
-        height=55
+        height=110
     )
 
     dict_of_coords = dict(

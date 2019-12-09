@@ -86,7 +86,7 @@ def image_extractor():
             width = coords[key]["width"]
             height = coords[key]["height"]
             cropped_image = crop_image(image, x, y, width, height)
-            cv2.imwrite(output_path + key + str(i) + ".jpg", cropped_image)
+            cv2.imwrite(output_path + key + "_" + str(i) + ".jpg", cropped_image)
     pass
 
 
