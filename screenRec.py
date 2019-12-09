@@ -4,6 +4,8 @@ import numpy as np
 import pyautogui
 from config import coordinates
 import image_reader as ir
+import pickle
+
 
 """
 Rec screen imgs into video without img save
@@ -75,8 +77,18 @@ def image_extractor():
     # load x,y,width,height screen coords from poker table
     coords = coordinates.load_coordinates()
     path = "img\\0"
+    output_path = set_path("table_parts")
     images = ir.image_reader(path)
-    pass
+
+
+def save_vars(content):
+    with open("coordinates", "wb") as f:
+        pickle.dump(content, f)
+
+
+def load_vars(filename):
+    with open(filename, "rb") as f:
+        return pickle.load(f)
 
 
 # options:
