@@ -10,6 +10,13 @@ Rec screen imgs into video without img save
 """
 
 
+def main(option):
+    if option == "rec":
+        video_record()
+    if option == "read_image":
+        image_extractor()
+
+
 # img basic crop tool
 def crop_image(image, x, y, w, h):
     return image[y:y + h, x:x + w]
@@ -32,20 +39,11 @@ def set_path(folder_name):
     return directory
 
 
-def main(option):
-    if option == "rec":
-        video_record()
-    if option == "read_image":
-        image_extractor()
-
-
 def video_record():
     output = "test.avi"
     video_output_path = set_path("video") + output
     img_path = set_path("img")
 
-    # load x,y,width,height screen coords from poker table
-    coords = coordinates.load_coordinates()
     # get info from pic
     image = pyautogui.screenshot()
     image = cv2.cvtColor(np.array(image), cv2.COLOR_RGB2BGR)
@@ -74,6 +72,8 @@ def video_record():
 
 
 def image_extractor():
+    # load x,y,width,height screen coords from poker table
+    coords = coordinates.load_coordinates()
     path = "img\\0"
     images = ir.image_reader(path)
     pass
