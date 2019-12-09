@@ -76,6 +76,7 @@ def video_record():
 def image_extractor():
     path = "img\\0"
     images = ir.image_reader(path)
+    pass
 
 
 # options:
