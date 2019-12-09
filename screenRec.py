@@ -8,9 +8,6 @@ from config import coordinates
 Rec screen imgs into video without img save
 """
 
-# simple version for working with CWD
-output = "test.avi"
-
 
 # img basic crop tool
 def crop_image(image, x, y, w, h):
@@ -35,8 +32,10 @@ def set_path():
 
 
 def main():
-    # get info from pic
+    output = "test.avi"
+    # load x,y,width,height screen coords from poker table
     coords = coordinates.load_coordinates()
+    # get info from pic
     image = pyautogui.screenshot()
     image = cv2.cvtColor(np.array(image), cv2.COLOR_RGB2BGR)
     height, width, channels = image.shape
