@@ -10,12 +10,16 @@ import pickle
 Rec screen imgs into video without img save
 """
 
+VAR_BASEPATH = "pyvars"
+
 
 def main(option):
     if option == "rec":
         video_record()
     if option == "read_image":
         image_extractor()
+    if option == "find_duplicate":
+        find_duplicates()
 
 
 # img basic crop tool
@@ -77,9 +81,9 @@ def image_extractor():
     coords = coordinates.load_coordinates()
     path = "img\\3"
     output_path = set_path("table_parts")
-    images = ir.image_reader(path)
-    save_vars("img3")
-    # images = load_vars("coordinates")
+    # images = ir.image_reader(path)
+    # save_vars("img3", images)
+    images = load_vars("img3")
     for i, image in enumerate(images):
         for key, coord in coords.items():
             x = coords[key]["x"]
@@ -91,14 +95,31 @@ def image_extractor():
     pass
 
 
-def save_vars(content):
-    with open("coordinates", "wb") as f:
+def save_vars(filename, content):
+    file_path = os.path.join(VAR_BASEPATH, filename)
+    with open(file_path, "wb") as f:
         pickle.dump(content, f)
+    print("variable saved: {}".format(file_path))
 
 
 def load_vars(filename):
-    with open(filename, "rb") as f:
+    file_path = os.path.join(VAR_BASEPATH, filename)
+    with open(file_path, "rb") as f:
+        print("variable content loaded: {}".format(file_path))
         return pickle.load(f)
+
+
+def find_duplicates():
+    images = load_vars("img3")
+    last_image = []
+    for image in images:
+        if len(last_image) == 0:
+            img_gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+            # cv2.imshow("teszt", img_gray)
+            # cv2.waitKey(0)
+            # cv2.destroyAllWindows()
+            last_image = img_gray
+            continue
 
 
 # options:
@@ -106,4 +127,4 @@ def load_vars(filename):
 # read_image - reads a folder of image and process it
 # find_duplicate - first step-> compare 2 img and mark as duplicate if is similar
 if __name__ == "__main__":
-    main("read_image")
+    main("find_duplicate")
