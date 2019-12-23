@@ -75,10 +75,11 @@ def video_record():
 def image_extractor():
     # load x,y,width,height screen coords from poker table
     coords = coordinates.load_coordinates()
-    path = "img\\0"
+    path = "img\\3"
     output_path = set_path("table_parts")
-    # images = ir.image_reader(path)
-    images = load_vars("coordinates")
+    images = ir.image_reader(path)
+    save_vars("img3")
+    # images = load_vars("coordinates")
     for i, image in enumerate(images):
         for key, coord in coords.items():
             x = coords[key]["x"]
@@ -103,5 +104,6 @@ def load_vars(filename):
 # options:
 # rec - video recorder
 # read_image - reads a folder of image and process it
+# find_duplicate - first step-> compare 2 img and mark as duplicate if is similar
 if __name__ == "__main__":
     main("read_image")
