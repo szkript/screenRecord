@@ -5,7 +5,8 @@ import pyautogui
 from config import coordinates
 import image_reader as ir
 import pickle
-
+import matplotlib.pyplot as plt
+from mpl_toolkits.axes_grid1 import ImageGrid
 """
 Rec screen imgs into video without img save
 """
@@ -117,7 +118,9 @@ def load_vars(filename):
 
 
 def find_duplicates():
-    images = load_vars("img3")
+    titles = ["actual", "last", "difference"]
+    # images = load_vars("table_parts3")
+    images = ir.image_reader("table_parts\\3")
     last_image = []
     for fi, image in enumerate(images):
         if len(last_image) == 0:
@@ -128,10 +131,29 @@ def find_duplicates():
             b, g, r = cv2.split(difference)
             if cv2.countNonZero(b) == 0 and cv2.countNonZero(g) == 0 and cv2.countNonZero(r) == 0:
                 print("The images are completely Equal")
-            cv2.imshow('diff', difference)
-            cv2.waitKey(0)
-            cv2.destroyAllWindows()
+            # visualize
+            fig = plt.figure(figsize=(3., 3.))
+            grid = ImageGrid(fig, 111,  # similar to subplot(111)
+                             nrows_ncols=(2, 2),  # creates 2x2 grid of axes
+                             axes_pad=0.1,  # pad between axes in inch.
+                             )
 
+            index = 0
+            for ax, im in zip(grid, [image, last_image, difference]):
+                # Iterating over the grid returns the Axes.
+                ax.imshow(im)
+                ax.set_title(titles[index])
+                index += 1
+
+            plt.show()
+
+            # cv2.imshow('actual', image)
+            # cv2.imshow('last', last_image)
+            # cv2.imshow('diff', difference)
+            # cv2.waitKey(0)
+            # cv2.destroyAllWindows()
+        if fi > 10:
+            break
 
 def sum_image(img_gray):
     # grayscale image
@@ -147,4 +169,4 @@ def sum_image(img_gray):
 # find_duplicate - first step-> compare 2 img and mark as duplicate if is similar
 # save_to_var - read folder of images and save the result in a var for be faster to experiment with them in the future
 if __name__ == "__main__":
-    main("save_to_var")
+    main("find_duplicate")
