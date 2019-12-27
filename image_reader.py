@@ -6,7 +6,8 @@ def image_reader(path_to_images):
     images = os.listdir(path_to_images)
     # preparing all img files into a list
     frame_array = []
-    for image in images:
+    ims = sorted(images, key=lambda x: int(x[:-4]))
+    for image in ims:
         frame_array.append(cv2.imread(path_to_images + "\\" + image))
 
     return frame_array

@@ -80,6 +80,9 @@ def video_record():
 
 
 def image_extractor():
+    filter = []
+    for x in range(1,6):
+        filter.append("card_{}".format(x))
     # load x,y,width,height screen coords from poker table
     coords = coordinates.load_coordinates()
     path = "img\\3"
@@ -87,14 +90,17 @@ def image_extractor():
     # images = ir.image_reader(path)
     # save_vars("img3", images)
     images = load_vars("img3")
+    count = 0
     for i, image in enumerate(images):
         for key, coord in coords.items():
-            x = coords[key]["x"]
-            y = coords[key]["y"]
-            width = coords[key]["width"]
-            height = coords[key]["height"]
-            cropped_image = crop_image(image, x, y, width, height)
-            cv2.imwrite(output_path + key + "_" + str(i) + ".jpg", cropped_image)
+            if key in filter:
+                x = coords[key]["x"]
+                y = coords[key]["y"]
+                width = coords[key]["width"]
+                height = coords[key]["height"]
+                cropped_image = crop_image(image, x, y, width, height)
+                cv2.imwrite(output_path + str(count) + ".jpg", cropped_image)
+                count += 1
     pass
 
 
@@ -118,11 +124,11 @@ def load_vars(filename):
 
 
 def find_duplicates():
-    titles = ["actual", "last", "difference"]
     # images = load_vars("table_parts3")
     images = ir.image_reader("table_parts\\3")
     last_image = []
     for fi, image in enumerate(images):
+        titles = ["actual {0}".format(fi), "last", "difference"]
         if len(last_image) == 0:
             last_image = image
             continue
@@ -146,7 +152,7 @@ def find_duplicates():
                 index += 1
 
             plt.show()
-
+            last_image = image
             # cv2.imshow('actual', image)
             # cv2.imshow('last', last_image)
             # cv2.imshow('diff', difference)
@@ -154,6 +160,7 @@ def find_duplicates():
             # cv2.destroyAllWindows()
         if fi > 10:
             break
+
 
 def sum_image(img_gray):
     # grayscale image
@@ -169,4 +176,4 @@ def sum_image(img_gray):
 # find_duplicate - first step-> compare 2 img and mark as duplicate if is similar
 # save_to_var - read folder of images and save the result in a var for be faster to experiment with them in the future
 if __name__ == "__main__":
-    main("find_duplicate")
+    main("read_image")
