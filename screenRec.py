@@ -112,35 +112,26 @@ def load_vars(filename):
 def find_duplicates():
     images = load_vars("img3")
     last_image = []
-    li = []
     for fi, image in enumerate(images):
-        img_gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
         if len(last_image) == 0:
-            last_image = sum_image(img_gray)
-            li = img_gray
+            last_image = image
             continue
-
-        sum_actual = sum_image(img_gray)
-        print("new image #########################" + str(fi))
-        counter = 0
-        for i in range(len(sum_actual)):
-            # print(sum_actual[1], last_image[1])
-            if sum_actual[1] == last_image[1]:
-                counter += 1
-        print("identical image parts : " + str(counter))
-
-        last_image = sum_actual
-        # cv2.imshow('actual image', image)
-        # cv2.imshow('last image', li)
-        # cv2.waitKey(0)
-        # cv2.destroyAllWindows()
+        if image.shape == last_image.shape:
+            difference = cv2.subtract(image, last_image)
+            b, g, r = cv2.split(difference)
+            if cv2.countNonZero(b) == 0 and cv2.countNonZero(g) == 0 and cv2.countNonZero(r) == 0:
+                print("The images are completely Equal")
+            cv2.imshow('diff', difference)
+            cv2.waitKey(0)
+            cv2.destroyAllWindows()
 
 
 def sum_image(img_gray):
-    laim = []
+    # grayscale image
+    sum_of_image = []
     for row in img_gray:
-        laim.append(sum(row))
-    return laim
+        sum_of_image.append(sum(row))
+    return sum_of_image
 
 
 # options:
