@@ -14,17 +14,6 @@ Rec screen imgs into video without img save
 VAR_BASEPATH = "pyvars"
 
 
-def main(option):
-    if option == "rec":
-        video_record()
-    if option == "read_image":
-        image_extractor()
-    if option == "find_duplicate":
-        find_duplicates()
-    if option == "save_to_var":
-        images2variable()
-
-
 # img basic crop tool
 def crop_image(image, x, y, w, h):
     return image[y:y + h, x:x + w]
@@ -85,7 +74,7 @@ def image_extractor():
         filter.append("card_{}".format(x))
     # load x,y,width,height screen coords from poker table
     coords = coordinates.load_coordinates()
-    path = "img\\3"
+    path = "img\\2"
     output_path = set_path("table_parts")
     # images = ir.image_reader(path)
     # save_vars("img3", images)
@@ -125,41 +114,31 @@ def load_vars(filename):
 
 def find_duplicates():
     # images = load_vars("table_parts3")
-    images = ir.image_reader("table_parts\\3")
-    last_image = []
-    for fi, image in enumerate(images):
-        titles = ["actual {0}".format(fi), "last", "difference"]
-        if len(last_image) == 0:
-            last_image = image
-            continue
-        if image.shape == last_image.shape:
-            difference = cv2.subtract(image, last_image)
-            b, g, r = cv2.split(difference)
-            if cv2.countNonZero(b) == 0 and cv2.countNonZero(g) == 0 and cv2.countNonZero(r) == 0:
-                print("The images are completely Equal")
-            # visualize
-            fig = plt.figure(figsize=(3., 3.))
-            grid = ImageGrid(fig, 111,  # similar to subplot(111)
-                             nrows_ncols=(2, 2),  # creates 2x2 grid of axes
-                             axes_pad=0.1,  # pad between axes in inch.
-                             )
+    comparable = ir.image_reader("cards")
+    images = ir.image_reader("table_parts\\0")
+    for compare in comparable:
+        for fi, image in enumerate(images):
+            titles = ["actual {0}".format(fi), "compare", "difference"]
+            if image.shape == compare.shape:
+                difference = cv2.subtract(image, compare)
+                b, g, r = cv2.split(difference)
+                if cv2.countNonZero(b) == 0 and cv2.countNonZero(g) == 0 and cv2.countNonZero(r) == 0:
+                    print("The images are completely Equal {0} - {1}".format(fi-1, fi))
+                # visualize
+                fig = plt.figure(figsize=(3., 3.))
+                grid = ImageGrid(fig, 111,  # similar to subplot(111)
+                                 nrows_ncols=(2, 2),  # creates 2x2 grid of axes
+                                 axes_pad=0.1,  # pad between axes in inch.
+                                 )
 
-            index = 0
-            for ax, im in zip(grid, [image, last_image, difference]):
-                # Iterating over the grid returns the Axes.
-                ax.imshow(im)
-                ax.set_title(titles[index])
-                index += 1
+                index = 0
+                for ax, im in zip(grid, [image, compare, difference]):
+                    # Iterating over the grid returns the Axes.
+                    ax.imshow(im)
+                    ax.set_title(titles[index])
+                    index += 1
 
-            plt.show()
-            last_image = image
-            # cv2.imshow('actual', image)
-            # cv2.imshow('last', last_image)
-            # cv2.imshow('diff', difference)
-            # cv2.waitKey(0)
-            # cv2.destroyAllWindows()
-        if fi > 10:
-            break
+                plt.show()
 
 
 def sum_image(img_gray):
@@ -168,6 +147,17 @@ def sum_image(img_gray):
     for row in img_gray:
         sum_of_image.append(sum(row))
     return sum_of_image
+
+
+def main(option):
+    if option == "rec":
+        video_record()
+    if option == "read_image":
+        image_extractor()
+    if option == "find_duplicate":
+        find_duplicates()
+    if option == "save_to_var":
+        images2variable()
 
 
 # options:
