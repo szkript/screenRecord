@@ -20,6 +20,8 @@ def main(option):
         image_extractor()
     if option == "find_duplicate":
         find_duplicates()
+    if option == "save_to_var":
+        images2variable()
 
 
 # img basic crop tool
@@ -95,6 +97,11 @@ def image_extractor():
     pass
 
 
+def images2variable():
+    path = "table_parts\\3"
+    save_vars("table_parts3", ir.image_reader(path))
+
+
 def save_vars(filename, content):
     file_path = os.path.join(VAR_BASEPATH, filename)
     with open(file_path, "wb") as f:
@@ -138,5 +145,6 @@ def sum_image(img_gray):
 # rec - video recorder
 # read_image - reads a folder of image and process it
 # find_duplicate - first step-> compare 2 img and mark as duplicate if is similar
+# save_to_var - read folder of images and save the result in a var for be faster to experiment with them in the future
 if __name__ == "__main__":
-    main("find_duplicate")
+    main("save_to_var")
