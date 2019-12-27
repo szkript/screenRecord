@@ -3,3 +3,5 @@
 /video/
 /venv/
 /coordinates
+/pyvars/*
+/pyvars
