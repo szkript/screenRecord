@@ -1,7 +1,7 @@
 MouseInfo==0.1.2
 numpy==1.17.4
 opencv-python==4.1.2.30
-Pillow==6.2.1
+Pillow==8.3.2
 PyAutoGUI==0.9.48
 PyGetWindow==0.0.8
 PyMsgBox==1.0.7
